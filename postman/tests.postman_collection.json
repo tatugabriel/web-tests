@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "c60eb239-4486-431b-bead-8f5264119360",
+		"name": "tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42125855"
+	},
+	"item": [
+		{
+			"name": "get1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.restful-api.dev/objects/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"restful-api",
+						"dev"
+					],
+					"path": [
+						"objects",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get2",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.restful-api.dev/objects/1",
+					"protocol": "https",
+					"host": [
+						"api",
+						"restful-api",
+						"dev"
+					],
+					"path": [
+						"objects",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Define the item data\r",
+							"const itemData = {\r",
+							"    \"name\": \"OnePlus 9 Pro\", // Name of the item\r",
+							"    \"data\": {\r",
+							"        \"color\": \"Morning Mist\",   // Color of the item\r",
+							"        \"capacity\": \"256 GB\",      // Capacity of the item\r",
+							"        \"price\": 1069.99           // Price of the item\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// Update the request body with the item data (set in raw JSON format)\r",
+							"pm.request.body.update({\r",
+							"    mode: 'raw',\r",
+							"    raw: JSON.stringify(itemData)  // Convert the JavaScript object to a JSON string\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Check if the status code is 200 (OK)\r",
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Check if the response contains the 'id' property (ensure it has been created)\r",
+							"pm.test(\"Response contains an 'id' field\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"});\r",
+							"\r",
+							"// Check if the response contains the 'name' of the product created\r",
+							"pm.test(\"Response contains the correct product name\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"OnePlus 9 Pro\");\r",
+							"});\r",
+							"\r",
+							"// Check if the response data contains valid 'color' and 'capacity'\r",
+							"pm.test(\"Response data contains correct color and capacity\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.color).to.eql(\"Morning Mist\");\r",
+							"    pm.expect(jsonData.data.capacity).to.eql(\"256 GB\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.restful-api.dev/objects",
+					"protocol": "https",
+					"host": [
+						"api",
+						"restful-api",
+						"dev"
+					],
+					"path": [
+						"objects"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
