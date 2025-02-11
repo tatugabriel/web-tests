@@ -162,6 +162,98 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "put",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Define updated item data\r",
+							"const updatedData = {\r",
+							"    name: \"OnePlus 9 Pro Updated\",   // New name\r",
+							"    data: {\r",
+							"        color: \"Morning Mist\",      // Keep the same color\r",
+							"        capacity: \"512 GB\",         // Updated capacity\r",
+							"        price: 1099.99,\r",
+							"        size: \"big\"           // Updated price\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// Set the updated data in the request body\r",
+							"pm.request.body.update({\r",
+							"    mode: 'raw',\r",
+							"    raw: JSON.stringify(updatedData)  // Convert the updated data to JSON format\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Check if the status code is 200 (OK)\r",
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Check if the response contains the 'id' property (ensure it has been created)\r",
+							"pm.test(\"Response contains an 'id' field\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"});\r",
+							"\r",
+							"// Check if the response contains the 'name' of the product created\r",
+							"pm.test(\"Response contains the correct product name\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"OnePlus 9 Pro\");\r",
+							"});\r",
+							"\r",
+							"// Check if the response data contains valid 'color' and 'capacity'\r",
+							"pm.test(\"Response data contains correct color and capacity\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.color).to.eql(\"Morning Mist\");\r",
+							"    pm.expect(jsonData.data.capacity).to.eql(\"256 GB\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.restful-api.dev/objects/ff808181932badb60194f64427980767",
+					"protocol": "https",
+					"host": [
+						"api",
+						"restful-api",
+						"dev"
+					],
+					"path": [
+						"objects",
+						"ff808181932badb60194f64427980767"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
